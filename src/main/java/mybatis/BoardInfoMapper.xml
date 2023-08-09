@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.game.mapper.BoardInfoMapper">
+
+    <select id="selectBoardInfoList" resultType="com.game.vo.BoardInfoVO">
+        SELECT BI.*, UI.UI_NAME FROM BOARD_INFO BI
+        INNER JOIN USER_INFO UI ON BI.UI_NUM = UI.UI_NUM
+        <where>
+        	<if test='searchStr != null and searchStr != ""'>
+        		<if test='searchType=="1" or searchType=="4" or searchType=="6" or searchType=="7"'>
+        			OR BI_TITLE LIKE CONCAT('%',#{searchStr},'%')
+        		</if>
+        		<if test='searchType=="2" or searchType=="5" or searchType=="6" or searchType=="7"'>
+        			OR UI_NAME LIKE CONCAT('%',#{searchStr},'%')
+        		</if>
+        		<if test='searchType=="3" or searchType=="4" or searchType=="5" or searchType=="7"'>
+        			OR BI_CONTENT LIKE CONCAT('%',#{searchStr},'%')
+        		</if>
+        	</if>
+        </where>
+    </select>
+    <select id="selectBoardInfo" resultType="com.game.vo.BoardInfoVO">
+    	SELECT * FROM BOARD_INFO WHERE BI_NUM=#{biNum}
+    </select>
+ 	<insert id="insertBoardInfo" parameterType="com.game.vo.BoardInfoVO">
+ 		INSERT INTO BOARD_INFO(BI_TITLE, BI_CONTENT, UI_NUM, CREDAT, CRETIM, LMODAT, LMOTIM)
+ 		VALUES(#{biTitle}, #{biContent}, #{uiNum}, DATE_FORMAT(NOW(),'%Y%m%d')
+ 		, DATE_FORMAT(NOW(),'%H%i%S'),DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%H%i%S'))
+ 	</insert>
+ 	<update id="updateBoardInfo" parameterType="com.game.vo.BoardInfoVO">
+ 		UPDATE BOARD_INFO
+ 		SET BI_TITLE=#{biTitle},
+ 		BI_CONTENT=#{biContent}
+ 		WHERE BI_NUM=#{biNum}
+ 	</update>
+ 	
+ 	<delete id="deleteBoardInfo" parameterType="com.game.vo.BoardInfoVO">
+ 		DELETE FROM  BOARD_INFO WHERE BI_NUM=#{biNum}                                                                                                                                                                                                                                                    BOARD_INFO WHERE BI_NUM=#{biNum}
+ 	</delete>
+</mapper>
