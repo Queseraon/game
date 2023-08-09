@@ -16,7 +16,31 @@ public class BoardInfoDAOImpl implements BoardInfoDAO {
 	@Override
 	public List<Map<String, String>> selectBoardInfoList(Map<String, String> board) {
 		List<Map<String, String>> list = new ArrayList<>();
-		String sql = "SELECT * FROM BOARD_INFO";
+		String sql = "SELECT BI.*, UI.UI_NAME FROM board_info BI \r\n" + "INNER JOIN user_info UI \r\n"
+				+ "ON BI.UI_NUM = UI.UI_NUM WHERE 1=1";
+		if (board != null) {
+			String key = board.get("key");
+			if ("1".equals(key)) {
+				sql += " AND BI_TITLE LIKE CONCAT('%',?,'%')";
+			} else if ("2".equals(key)) {
+				sql += " AND UI_NAME LIKE CONCAT('%',?,'%')";
+			} else if ("3".equals(key)) {
+				sql += " AND  BI_CONTENT LIKE CONCAT('%',?,'%')";
+			} else if ("4".equals(key)) {
+				sql += " AND ( BI_TITLE LIKE CONCAT('%',?,'%')";
+				sql += " OR BI_CONTENT LIKE CONCAT('%',?,'%'))";
+			} else if ("5".equals(key)) {
+				sql += " AND ( UI_NAME LIKE CONCAT('%',?,'%')";
+				sql += " OR BI_CONTENT LIKE CONCAT('%',?,'%'))";
+			} else if ("6".equals(key)) {
+				sql += " AND ( BI_TITLE LIKE CONCAT('%',?,'%')";
+				sql += " OR UI_NAME LIKE CONCAT('%',?,'%'))";
+			} else if ("7".equals(key)) {
+				sql += " AND ( BI_TITLE LIKE CONCAT('%',?,'%')";
+				sql += " OR UI_NAME LIKE CONCAT('%',?,'%')";
+				sql += " OR BI_CONTENT LIKE CONCAT('%',?,'%'))";
+			}
+		}
 		try(Connection con = DBCon.getCon()){
 			try(PreparedStatement ps = con.prepareStatement(sql)){
 				try(ResultSet rs = ps.executeQuery()){

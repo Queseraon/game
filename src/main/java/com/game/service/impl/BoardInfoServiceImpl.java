@@ -1,22 +1,40 @@
 package com.game.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import com.game.common.MyBatisSqlSessionFactory;
 import com.game.dao.BoardInfoDAO;
 import com.game.dao.impl.BoardInfoDAOImpl;
+import com.game.mapper.BoardInfoMapper;
 import com.game.service.BoardInfoService;
+import com.game.vo.BoardInfoVO;
 
 public class BoardInfoServiceImpl implements BoardInfoService{
 	private BoardInfoDAO biDAO = new BoardInfoDAOImpl();
+	private SqlSessionFactory ssf = MyBatisSqlSessionFactory.getSqlSessionFactory();
 	@Override
-	public List<Map<String, String>> selectBoardInfoList(Map<String, String> board) {
-		return biDAO.selectBoardInfoList(board);
+	public List<BoardInfoVO> selectBoardInfoList(BoardInfoVO board) {
+		try(SqlSession session = ssf.openSession()){
+			BoardInfoMapper biMapper = session.getMapper(BoardInfoMapper.class);
+			return biMapper.selectBoardInfoList(board);
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
-	public Map<String, String> selectBoardInfo(String biNum) {
-		return biDAO.selectBoardInfo(biNum);
+	public BoardInfoVO selectBoardInfo(String biNum) {
+		try(SqlSession session = ssf.openSession()){
+			BoardInfoMapper biMapper = session.getMapper(BoardInfoMapper.class);
+			return biMapper.selectBoardInfo(biNum);
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
