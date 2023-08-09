@@ -28,4 +28,3 @@ public class CommonView {
 		rd.forward(request, response);
 	}
 }
-//test
