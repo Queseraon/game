@@ -50,7 +50,7 @@
 					for(const user of obj){
 						html += '<tr>';
 						html += '<td>'+ user.uiNum +'</td>';
-						html += '<td>'+ user.uiName +'</td>';
+						html += '<td><a href="/views/user-info/view?uiNum='+ user.uiNum + '"/>' + user.uiName +'</td>';
 						html += '<td>'+ user.uiId +'</td>';
 						html += '<td>'+ user.uiPwd +'</td>';
 						html += '</tr>';

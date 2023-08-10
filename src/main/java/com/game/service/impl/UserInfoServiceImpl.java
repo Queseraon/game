@@ -28,8 +28,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public Map<String, String> selectUserInfo(String uiNum) {
-		return uiDAO.selectUserInfo(uiNum);
+	public UserInfoVO selectUserInfo(String uiNum) {
+		try(SqlSession session = ssf.openSession()){
+			UserInfoMapper uiMapper = session.getMapper(UserInfoMapper.class);
+			return uiMapper.selectUserInfo(uiNum);
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 
 	@Override

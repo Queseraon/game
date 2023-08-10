@@ -30,9 +30,11 @@ public class UserInfoServlet extends HttpServlet {
 		if("list".equals(cmd)) {
 			json = gson.toJson(uiService.selectUserInfoList(null));
 		}else if("view".equals(cmd) || "update".equals(cmd)) {
+			json = gson.toJson(uiService.selectUserInfo(request.getParameter("uiNum")));
 		}
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
+		
 		out.print(json);
 	}
 

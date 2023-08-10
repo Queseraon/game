@@ -7,7 +7,7 @@ import com.game.vo.UserInfoVO;
 
 public interface UserInfoService {
 	List<UserInfoVO> selectUserInfoList(UserInfoVO userInfo);
-	Map<String,String> selectUserInfo(String uiNum);
+	UserInfoVO selectUserInfo(String uiNum);
 	int insertUserInfo(Map<String,String> userInfo);
 	int updateUserInfo(Map<String,String> userInfo);
 	int deleteUserInfo(String uiNum);
